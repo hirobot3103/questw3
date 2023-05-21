@@ -7,29 +7,26 @@
 SELECT
     db_itv.tbl_programlist.date_onair
     , db_itv.tbl_programlist.start_time
-    , db_itv.tbl_programlist.end_time 
+    , db_itv.tbl_programlist.end_time
     , db_itv.tbl_programlist.channel_id
     , db_itv.tbl_channel_master.channel_name
+    , db_itv.tbl_program_basic.title 
     , db_itv.tbl_program_ep.season_num
     , db_itv.tbl_program_ep.epsode_num
     , db_itv.tbl_program_ep.ep_title
     , db_itv.tbl_program_ep.ep_synopsis
 
-    
 FROM
     db_itv.tbl_programlist 
     INNER JOIN db_itv.tbl_channel_master 
         ON db_itv.tbl_channel_master.channel_id = db_itv.tbl_programlist.channel_id 
     INNER JOIN db_itv.tbl_program_ep 
-        ON db_itv.tbl_program_ep.program_ep_id = db_itv.tbl_programlist.program_ep_id
-
+        ON db_itv.tbl_program_ep.program_ep_id = db_itv.tbl_programlist.program_ep_id 
+    INNER JOIN db_itv.tbl_program_basic 
+        ON db_itv.tbl_program_basic.program_basic_id = db_itv.tbl_program_ep.program_basic_id 
 HAVING
-     db_itv.tbl_programlist.channel_id = 1
-     AND db_itv.tbl_programlist.date_onair 
-         BETWEEN '2023/05/21' 
-             AND '2023/05/28'
-
+    db_itv.tbl_programlist.date_onair BETWEEN '2023/05/21' AND '2023/05/28' 
+    AND db_itv.tbl_programlist.channel_id = 1 
 ORDER BY
-     db_itv.tbl_programlist.date_onair, 
-     db_itv.tbl_programlist.channel_id
-;
+    db_itv.tbl_programlist.date_onair
+    , db_itv.tbl_programlist.channel_id
